@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a1914c3-7cc8-40db-9d51-4dbfc68195ff" name="Changes" comment="second practice">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/ApplicationKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/ApplicationKt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/Driver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/Driver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/Human.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/Human.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/application.kt" afterDir="false" />
-    </list>
+    <list default="true" id="0a1914c3-7cc8-40db-9d51-4dbfc68195ff" name="Changes" comment="second practice" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +33,7 @@
     </excluded-from-favorite>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="threads" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -74,7 +68,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "threads",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "project.structure.last.edited": "Modules",
@@ -148,7 +142,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758442603939</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="second practice">
+      <option name="closed" value="true" />
+      <created>1758704178786</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1758704178786</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
