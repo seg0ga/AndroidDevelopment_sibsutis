@@ -37,8 +37,9 @@ open class Human {
         surname= _surname
         second_name= _second
         age= _age
-        currentSpeed= _speed
-        println("Создан человек: $surname $name $second_name. Возраст: $age. Скорость $currentSpeed")}
+        currentSpeed= _speed}
+
+    open fun printInfo(){println("Создан человек: $surname $name $second_name. Возраст: $age. Скорость $currentSpeed")}
 
     open fun move() {
         val direction=Random.nextDouble(0.0, 2*Math.PI)
@@ -54,8 +55,9 @@ class Driver:Human {
 
     constructor(_name:String,_surname:String,_second:String,_age:Int,_speed: Double,_direction: Double):
             super(_name, _surname, _second, _age, _speed) {
-        angle=_direction
-        println("Создан водитель: $surname $name $second_name. Направление: ${"%.2f".format(Math.toDegrees(angle))}°. Скорость: $currentSpeed")}
+        angle=_direction}
+
+    override fun printInfo(){println("Создан водитель: $surname $name $second_name. Направление: ${"%.2f".format(Math.toDegrees(angle))}°. Скорость: $currentSpeed")}
 
     override fun move() {
         x+=currentSpeed*Math.cos(angle)
@@ -68,9 +70,11 @@ fun main(){
         Human("Сергей","Демин","Алексеевич", 42, 1.3),
         Human("Андрей","Кутенков","Алексеевич", 38, 1.5),
         Human("Михаил","Синица","Александрович", 17, 1.7),
-        Driver("Никита","Криволапов","Алексеевич",109,15.0,Math.PI/4))
+        Driver("Никита","Криволапов","Алексеевич",109,15.0,Math.PI/6))
 
-    val time_steps = 5
+    for (person in people){person.printInfo()}
+
+    val time_steps=5
 
     println("\nЗапуск симуляции на $time_steps секунд")
 

@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a1914c3-7cc8-40db-9d51-4dbfc68195ff" name="Changes" comment="second practice" />
+    <list default="true" id="0a1914c3-7cc8-40db-9d51-4dbfc68195ff" name="Changes" comment="second practice">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/ApplicationKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/ApplicationKt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/Driver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/Driver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/Human.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AndroidDevelopment_sibsutis/Human.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/application.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,8 +52,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/seg0ga/AndroidDevelopment_sibsutis.git&quot;,
-    &quot;accountId&quot;: &quot;13af2b51-0ea5-4ad7-aba3-c6080874a2fa&quot;
+    &quot;url&quot;: &quot;https://github.com/seg0ga/AndroidDevelopment_sibsutis&quot;,
+    &quot;accountId&quot;: &quot;90d994bb-88a9-40a6-8412-ec0b0364590b&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -61,22 +67,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Kotlin.ApplicationKt.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;threads&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Kotlin.ApplicationKt.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "threads",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="ApplicationKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ApplicationKt" />
@@ -87,6 +93,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.ApplicationKt" />
         <item itemvalue="Kotlin.ApplicationKt" />
         <item itemvalue="Kotlin.ApplicationKt" />
         <item itemvalue="Kotlin.ApplicationKt" />
