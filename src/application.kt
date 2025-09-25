@@ -1,68 +1,4 @@
-import kotlin.random.Random
 import kotlin.concurrent.thread
-
-open class Human {
-    var name: String = ""
-        get() = field
-        set(value){field =value}
-
-    var surname: String = ""
-        get()=field
-        set(value){field= value}
-
-    var second_name: String = ""
-        get()= field
-        set(value){field=value}
-
-    var age: Int = 0
-        get()=field
-        set(value){
-            if (value>0){field=value}
-            else {field=0}}
-
-    var currentSpeed: Double = 0.0
-        get()=field
-        set(value){field=value}
-
-    var x: Double = 0.0
-        get()=field
-        set(value){field=value}
-
-    var y: Double = 0.0
-        get()=field
-        set(value){field=value}
-
-    constructor(_name: String, _surname: String, _second: String,  _age: Int, _speed: Double){
-        name= _name
-        surname= _surname
-        second_name= _second
-        age= _age
-        currentSpeed= _speed}
-
-    open fun printInfo(){println("Создан человек: $surname $name $second_name. Возраст: $age. Скорость $currentSpeed")}
-
-    open fun move() {
-        val direction=Random.nextDouble(0.0, 2*Math.PI)
-
-        x+=currentSpeed*Math.cos(direction)
-        y+=currentSpeed*Math.sin(direction)
-        println("$name перешел на (${"%.2f".format(x)}; ${"%.2f".format(y)})")}}
-
-class Driver:Human {
-    var angle:Double = 0.0
-        get()=field
-        set(value){field=value%(2*Math.PI)}
-
-    constructor(_name:String,_surname:String,_second:String,_age:Int,_speed: Double,_direction: Double):
-            super(_name, _surname, _second, _age, _speed) {
-        angle=_direction}
-
-    override fun printInfo(){println("Создан водитель: $surname $name $second_name. Направление: ${"%.2f".format(Math.toDegrees(angle))}°. Скорость: $currentSpeed")}
-
-    override fun move() {
-        x+=currentSpeed*Math.cos(angle)
-        y+=currentSpeed*Math.sin(angle)
-        println("$name переехал на (${"%.2f".format(x)}; ${"%.2f".format(y)})")}}
 
 fun main(){
     val people=arrayOf(
@@ -80,7 +16,7 @@ fun main(){
 
     for (step in 1..time_steps) {
         println("\nСекунда $step:")
-        println("_____________________________________________")
+        println("_________")
 
         val threads = mutableListOf<Thread>()
 
