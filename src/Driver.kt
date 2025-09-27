@@ -1,4 +1,4 @@
-class Driver:Human {
+class Driver:Human,Printable {
     var angle:Double = 0.0
         get()=field
         set(value){field=value%(2*Math.PI)}

@@ -1,6 +1,6 @@
 import kotlin.random.Random
 
-open class Human:Movable{
+open class Human:Movable,Printable{
     var name: String = ""
         get() = field
         set(value){field =value}
@@ -32,7 +32,7 @@ open class Human:Movable{
         age= _age
         currentSpeed= _speed}
 
-    open fun printInfo(){println("Создан человек: $surname $name $second_name. Возраст: $age. Скорость $currentSpeed")}
+    override fun printInfo(){println("Создан человек: $surname $name $second_name. Возраст: $age. Скорость $currentSpeed")}
 
     override fun move() {
         val direction=Random.nextDouble(0.0, 2*Math.PI)
