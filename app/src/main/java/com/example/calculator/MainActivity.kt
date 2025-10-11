@@ -12,7 +12,6 @@ class MainActivity : AppCompatActivity() {
     var digit1:String=""
     var digit2:String=""
     var operator:String=""
-    var reset:Boolean=false
     lateinit var result: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,13 +87,11 @@ class MainActivity : AppCompatActivity() {
             result.text=resText
             digit1=resText
             digit2=""
-            operator=""
-            reset=true}}
+            operator=""}}
 
     fun clear(){
         digit1=""
         digit2=""
         operator=""
-        reset=false
         result.text="0"}
 }
