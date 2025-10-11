@@ -13,6 +13,9 @@ class MainActivity : AppCompatActivity() {
     var digit2:String=""
     var operator:String=""
     lateinit var result: TextView
+    var flag_comma1:Boolean=true
+    var flag_comma2:Boolean=true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +27,6 @@ class MainActivity : AppCompatActivity() {
             insets}
 
         result=findViewById(R.id.result)
-
 
         val bttn0=findViewById<Button>(R.id.bttn0)
         val bttn1=findViewById<Button>(R.id.bttn1)
@@ -43,6 +45,9 @@ class MainActivity : AppCompatActivity() {
         val bttn_del=findViewById<Button>(R.id.bttn_del)
         val bttn_ravn=findViewById<Button>(R.id.bttn_ravn)
         val bttn_clear=findViewById<Button>(R.id.bttn_clear)
+        val bttn_comma=findViewById<Button>(R.id.bttn_comma)
+        val bttn_smena=findViewById<Button>(R.id.bttn_smena)
+
 
         bttn0.setOnClickListener{addDigit("0")}
         bttn1.setOnClickListener{addDigit("1")}
@@ -54,20 +59,58 @@ class MainActivity : AppCompatActivity() {
         bttn7.setOnClickListener{addDigit("7")}
         bttn8.setOnClickListener{addDigit("8")}
         bttn9.setOnClickListener{addDigit("9")}
+        bttn_comma.setOnClickListener{addDigit(".")}
 
         bttn_plus.setOnClickListener{addOperator("+")}
         bttn_minus.setOnClickListener{addOperator("-")}
-        bttn_umn.setOnClickListener{addOperator("*")}
-        bttn_del.setOnClickListener{addOperator("/")}
+        bttn_umn.setOnClickListener{addOperator("×")}
+        bttn_del.setOnClickListener{addOperator("÷")}
+        bttn_smena.setOnClickListener{smena_znaka()}
+
         bttn_ravn.setOnClickListener{calculate()}
         bttn_clear.setOnClickListener{clear()}
     }
+
+    fun smena_znaka(){
+        if (digit1==""){}
+        else if (operator.isEmpty()){
+            if (digit1[0].toString()=="-"){
+                digit1=digit1.substring(1)
+                result.text=digit1}
+            else {
+                digit1="-"+digit1
+                result.text=digit1}}
+        else if (digit2==""){}
+        else{
+            if (digit2[0].toString()=="-"){
+                digit2=digit2.substring(1)
+                result.text=digit1+operator+digit2}
+            else {
+                digit2="-"+digit2
+                result.text=digit1+operator+digit2}}}
+
+
     fun addDigit(digit:String){
-        if (operator.isEmpty()){digit1+=digit;result.text=digit1}
-        else {digit2+=digit;result.text="$digit1$operator$digit2"}}
+        if (operator.isEmpty()){
+            if (digit=="."&&!flag_comma1){}
+            else{
+                if (digit=="."){flag_comma1=false}
+                digit1+=digit
+                result.text=digit1}}
+
+        else {
+            if (digit=="."&&!flag_comma2){}
+            else{
+                if (digit=="."){flag_comma2=false}
+                digit2+=digit
+                result.text=digit1+operator+digit2}}}
+
 
     fun addOperator(oper: String){
-        if (digit1.isNotEmpty()){operator=oper;result.text="$digit1$operator"}}
+        if (digit1.isNotEmpty()){
+            operator=oper
+            result.text=digit1+operator
+            digit2=""}}
 
     fun calculate(){
         if (digit1.isNotEmpty()&&operator.isNotEmpty()&&digit2.isNotEmpty()){
@@ -78,7 +121,7 @@ class MainActivity : AppCompatActivity() {
 
             if (operator=="+"){res=(number1+number2)}
             else if (operator=="-"){res=(number1-number2)}
-            else if (operator=="*"){res=(number1*number2)}
+            else if (operator=="×"){res=(number1*number2)}
             else {res=(number1/number2)}
 
             if (res%1==0.0){resText=res.toInt().toString()}
@@ -92,6 +135,8 @@ class MainActivity : AppCompatActivity() {
     fun clear(){
         digit1=""
         digit2=""
+        flag_comma1=true
+        flag_comma2=true
         operator=""
-        result.text="0"}
+        result.text=""}
 }
