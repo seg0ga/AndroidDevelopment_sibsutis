@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.calculator"
+    namespace = "com.example.android_development"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.calculator"
+        applicationId = "com.example.android_development"
         minSdk = 30
         targetSdk = 36
         versionCode = 1
