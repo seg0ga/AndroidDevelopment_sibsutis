@@ -9,7 +9,8 @@
 3. Реализовать метод перехода из MainActivity в другие при помощи кнопок.✅
 
 ### Дизайн
-![img_3.png](img_3.png)
+<img width="309" height="426" alt="image" src="https://github.com/user-attachments/assets/c300acd6-1d26-485c-95a3-af46632b449e" />
+
 ## Практическая работа №4 ”Калькулятор"
 
 ### Цель
