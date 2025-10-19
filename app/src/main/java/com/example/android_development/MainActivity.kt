@@ -2,6 +2,7 @@ package com.example.android_development
 
 import android.os.Bundle
 import android.widget.Button
+import android.net.Uri
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,14 +25,20 @@ class MainActivity : AppCompatActivity() {
         val bttn_location=findViewById<Button>(R.id.bttn_location)
         val bttn_telephony=findViewById<Button>(R.id.bttn_telephony)
         val bttn_sockets=findViewById<Button>(R.id.bttn_sockets)
+        val bttn_tasks=findViewById<Button>(R.id.bttn_tasks)
 
         bttn_calculator.setOnClickListener({
             val calculatorIntent = Intent(this, calc::class.java)
             startActivity(calculatorIntent)})
+
         bttn_mediaplayer.setOnClickListener({
             val meadiplayerIntent=Intent(this, mediaplayer::class.java)
             startActivity(meadiplayerIntent)})
 
-
+        bttn_tasks.setOnClickListener({
+            val uri = Uri.parse("https://telecomdep.github.io/notes/HomeWork/home_work.html#")
+            val tasksIntent=Intent(Intent.ACTION_VIEW,uri)
+            startActivity(tasksIntent)
+        })
     }
 }

@@ -9,15 +9,54 @@
     android:backgroundTint="#010101"
     tools:context=".mediaplayer">
 
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="71dp"
+        android:layout_height="57dp"
+        android:backgroundTint="#2d2d2f"
+        android:text="⏮"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="516dp" />
+
     <SeekBar
         android:id="@+id/seekBar"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="353dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="68dp"
+        android:layout_width="312dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="104dp"
+        android:background="#F2EAEA"
+        android:backgroundTint="#020202"
         android:indeterminate="false"
-        android:progressTint="#FFFFFF"
+        android:progressTint="#FF0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/bttn_play"
+        android:layout_width="103dp"
+        android:layout_height="73dp"
+        android:backgroundTint="#16c603"
+        android:lineSpacingExtra="8sp"
+        android:text="▶"
+        android:textAllCaps="false"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="500dp" />
+
+    <Button
+        android:id="@+id/button_forward"
+        android:layout_width="71dp"
+        android:layout_height="57dp"
+        android:backgroundTint="#2d2d2f"
+        android:text="⏭︎"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="273dp"
+        tools:layout_editor_absoluteY="516dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
