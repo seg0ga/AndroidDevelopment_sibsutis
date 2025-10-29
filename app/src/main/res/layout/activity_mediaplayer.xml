@@ -9,54 +9,104 @@
     android:backgroundTint="#010101"
     tools:context=".mediaplayer">
 
-    <Button
-        android:id="@+id/button_back"
+    <ImageButton
+        android:id="@+id/bttn_dir"
         android:layout_width="71dp"
         android:layout_height="57dp"
-        android:backgroundTint="#2d2d2f"
-        android:text="⏮"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="516dp" />
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="192dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Open directory"
+        android:scaleType="fitCenter"
+        android:src="@drawable/dir"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_author" />
+
+    <ImageButton
+        android:id="@+id/bttn_play"
+        android:layout_width="86dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="68dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pause"
+        app:layout_constraintStart_toEndOf="@+id/bttn_back"
+        app:layout_constraintTop_toBottomOf="@+id/textView_author" />
+
+    <ImageButton
+        android:id="@+id/bttn_back"
+        android:layout_width="88dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="76dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Back button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_author" />
+
+    <ImageButton
+        android:id="@+id/bttn_forward"
+        android:layout_width="88dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="76dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Forward button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/forward"
+        app:layout_constraintStart_toEndOf="@+id/bttn_play"
+        app:layout_constraintTop_toBottomOf="@+id/textView_author" />
 
     <SeekBar
         android:id="@+id/seekBar"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="312dp"
+        android:layout_width="380dp"
         android:layout_height="55dp"
+        android:layout_marginTop="12dp"
+        android:progressTint="#FFFFFF"
+        android:progressBackgroundTint="#FFFFFF"
+        android:thumbTint="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/textView_author"
+        tools:layout_editor_absoluteX="21dp" />
+
+    <TextView
+        android:id="@+id/textView_name"
+        android:layout_width="194dp"
+        android:layout_height="40dp"
         android:layout_marginStart="32dp"
-        android:layout_marginBottom="104dp"
-        android:background="#F2EAEA"
-        android:backgroundTint="#020202"
-        android:indeterminate="false"
-        android:progressTint="#FF0000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/bttn_play"
-        android:layout_width="103dp"
-        android:layout_height="73dp"
-        android:backgroundTint="#16c603"
-        android:lineSpacingExtra="8sp"
-        android:text="▶"
-        android:textAllCaps="false"
-        android:textSize="48sp"
+        android:layout_marginTop="8dp"
+        android:text="Название"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
         android:textStyle="bold"
-        android:typeface="normal"
-        tools:layout_editor_absoluteX="135dp"
-        tools:layout_editor_absoluteY="500dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_music" />
 
-    <Button
-        android:id="@+id/button_forward"
-        android:layout_width="71dp"
-        android:layout_height="57dp"
-        android:backgroundTint="#2d2d2f"
-        android:text="⏭︎"
-        android:textAlignment="center"
+    <TextView
+        android:id="@+id/textView_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="56dp"
+        android:text="Исполнитель"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
-        tools:layout_editor_absoluteX="273dp"
-        tools:layout_editor_absoluteY="516dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_music" />
+
+    <ImageView
+        android:id="@+id/imageView_music"
+        android:layout_width="323dp"
+        android:layout_height="323dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.238"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
