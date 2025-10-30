@@ -68,37 +68,15 @@ class mediaplayer : AppCompatActivity() {
     private fun playMusic(){
         var musicPath: String = Environment.getExternalStorageDirectory().path
         Log.d (log_tag, "PATH: " + musicPath)
-        var directory: File = File(musicPath)
-
-        audio.clear()
-        directory.listFiles()?.forEach{ file ->
-            if (file.name.endsWith(".mp3")) {
-                audio.add(file)}}
-
-        if (audio.isNotEmpty()){
-            playSong(audio[0])}}
-
-
-    fun playSong(file: File) {
-        mediaplayer.reset()
-        mediaplayer.setDataSource(file.absolutePath)
-        mediaplayer.prepare()
-        mediaplayer.start()
-        name.text=file.nameWithoutExtension
-        bttn_play.setImageResource(R.drawable.play)
-        play_p=true
-    }
+        var directory: File = File(musicPath)}
 
 
     fun play(){
         if (play_p==false){
-            playSong(audio[0])
-            mediaplayer.start()
             bttn_play.setImageResource(R.drawable.play)
             play_p=true
             }
         else{
-            mediaplayer.pause()
             bttn_play.setImageResource(R.drawable.pause)
             play_p=false}}
 
