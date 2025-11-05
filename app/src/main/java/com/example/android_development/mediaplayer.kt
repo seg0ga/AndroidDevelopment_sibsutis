@@ -99,7 +99,7 @@ class mediaplayer : AppCompatActivity() {
 
         volumeSeekBar.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                if (fromUser) {audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0)}}
+                if (fromUser) {audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0)}}
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {}}) }
