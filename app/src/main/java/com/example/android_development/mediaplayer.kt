@@ -67,8 +67,8 @@ class mediaplayer : AppCompatActivity() {
             mediaplayer.seekTo(0)
             play_p = false
             bttn_play.setImageResource(R.drawable.pause)
-            seekBar.progress = 0
-            currentTimeText.text = "0:00"}
+            seekBar.progress=0
+            currentTimeText.text= "0:00"}
 
         seekBar.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar:SeekBar,progress:Int,fromUser:Boolean){
@@ -87,9 +87,6 @@ class mediaplayer : AppCompatActivity() {
         songsListView = findViewById(R.id.songsListView)}
 
 
-
-
-
     fun setupVolumeSeekBar() {
         val maxVolume=audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         val currentVolume=audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
@@ -105,13 +102,11 @@ class mediaplayer : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}}) }
 
 
-
     fun formatTime(millis: Int):String{
         val totalSeconds=millis/1000
         val minutes=totalSeconds/60
         val seconds=totalSeconds%60
         return String.format("%d:%02d",minutes,seconds)}
-
 
 
     fun updateSeekBar(){
@@ -123,7 +118,6 @@ class mediaplayer : AppCompatActivity() {
                 updateSeekBar()}}, 1000)}
 
 
-
     fun loadInitialMusic() {
         val myMusicDir=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), "MyMusic")
 
@@ -131,7 +125,7 @@ class mediaplayer : AppCompatActivity() {
 
         if (myMusicDir.exists()&&myMusicDir.isDirectory) {
             myMusicDir.listFiles()?.forEach { file ->
-                if (file.isFile && file.name.endsWith(".mp3", ignoreCase = true)) {audio.add(file)}}}
+                if (file.isFile&&file.name.endsWith(".mp3",ignoreCase=true)) {audio.add(file)}}}
 
         if (audio.size > 0) {
             val songNames=audio.map{it.name}
@@ -184,7 +178,6 @@ class mediaplayer : AppCompatActivity() {
             if (play_p){
                 mediaplayer.start()
                 updateSeekBar()}}}
-
 
 
     fun predTrack(){
