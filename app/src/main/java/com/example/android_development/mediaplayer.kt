@@ -84,7 +84,7 @@ class mediaplayer : AppCompatActivity() {
             if (isGranted) {
                 loadInitialMusic()}}
         requestPermessionLauncher.launch(READ_MEDIA_AUDIO)
-        songsListView = findViewById(R.id.songsListView)}
+        songsListView = findViewById(R.id.ListView)}
 
 
     fun setupVolumeSeekBar() {

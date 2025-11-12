@@ -35,6 +35,12 @@ class MainActivity : AppCompatActivity() {
             val meadiplayerIntent=Intent(this, mediaplayer::class.java)
             startActivity(meadiplayerIntent)})
 
+        bttn_location.setOnClickListener({
+            val locationIntent=Intent(this, location::class.java)
+            startActivity(locationIntent)})
+
+
+
         bttn_tasks.setOnClickListener({
             val uri = Uri.parse("https://telecomdep.github.io/notes/HomeWork/home_work.html#")
             val tasksIntent=Intent(Intent.ACTION_VIEW,uri)
