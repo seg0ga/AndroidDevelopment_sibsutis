@@ -16,7 +16,9 @@ import android.net.Uri
 import android.os.Environment
 import android.os.Handler
 import android.provider.Settings
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ListView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -25,6 +27,9 @@ import org.json.JSONObject
 import java.io.File
 import java.util.Date
 import kotlin.math.round
+
+
+
 
 class location : AppCompatActivity() {
     var file="location.json"
@@ -35,6 +40,9 @@ class location : AppCompatActivity() {
     lateinit var card_button: Button
     lateinit var time: TextView
     lateinit var test: TextView
+    var first: Boolean=true
+    var spisokLocation=mutableListOf<String>()
+    lateinit var spisokloc_activity: ListView
     var handler= Handler()
     var lat_site: Double= 0.0
     var lon_site: Double=0.0
@@ -54,6 +62,7 @@ class location : AppCompatActivity() {
         lat=findViewById<TextView>(R.id.latitude)
         lon=findViewById<TextView>(R.id.longitude)
         alt=findViewById<TextView>(R.id.altitude)
+        spisokloc_activity=findViewById<ListView>(R.id.listloc)
         time=findViewById<TextView>(R.id.current_time)
         card_button=findViewById<Button>(R.id.card_button)
 //        test=findViewById<TextView>(R.id.test)
@@ -74,6 +83,14 @@ class location : AppCompatActivity() {
 //            testik+=1
         updatelocation()}, 5000)}
 
+
+    private fun updateSpisok(location_for_spisok: String){
+        var adapter= ArrayAdapter(this,android.R.layout.simple_list_item_1,spisokLocation)
+        spisokloc_activity.adapter=adapter
+        spisokLocation.add(location_for_spisok)
+    }
+
+
     private fun getCurrentLocation(){
 
         if(checkPermissions()){
@@ -87,19 +104,32 @@ class location : AppCompatActivity() {
                     } else {
                         lat_site= location.latitude
                         lon_site= location.longitude
+
                         lat.setText(location.latitude.toString())
                         lon.setText(location.longitude.toString())
                         alt.setText((round(location.altitude)).toString())
+
                         var hour=Date(location.time).hours.toString()
                         var minute=Date(location.time).minutes.toString()
                         var seconds=Date(location.time).seconds.toString()
                         var day=Date(location.time).day
                         var mount= Date(location.time).month
                         var year= Date(location.time).year
+
                         if (hour.length!=2){hour="0"+hour}
                         if (minute.length!=2){minute="0"+minute}
                         if (seconds.length!=2){seconds="0"+seconds}
-                        time.setText(hour+":"+minute+":"+seconds)}
+
+
+                        var timeloc = hour+":"+minute+":"+seconds
+                        var location_for_spisok = "Время: ${timeloc}\nШир: ${location.latitude} Дол: ${location.longitude}"
+                        if (first){updateSpisok(location_for_spisok);first=false}
+
+                        if (spisokLocation.last()!=location_for_spisok){
+                            updateSpisok(location_for_spisok)}
+
+                        time.setText(timeloc)}
+
                         val file=File(getExternalFilesDir(Environment.DIRECTORY_MUSIC),"location.json")
                         val json=JSONObject().apply {
                             put("lat",lat_site)
