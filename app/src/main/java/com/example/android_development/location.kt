@@ -33,7 +33,6 @@ import kotlin.math.round
 
 
 class location : AppCompatActivity() {
-    var file="location.json"
     lateinit var myFusedLocationProviderClient: FusedLocationProviderClient
     lateinit var lat: TextView
     lateinit var lon: TextView
@@ -124,7 +123,7 @@ class location : AppCompatActivity() {
                         var timeloc = hour+":"+minute+":"+seconds
                         var location_for_spisok = "Время: ${timeloc}\nШир: ${location.latitude} Дол: ${location.longitude}"
                         updateSpisok(location_for_spisok)
-                        tojson(location.latitude,location.longitude,location.altitude,timeloc)
+                        tojson(location.latitude,location.longitude,location.altitude,location.time.toString())
                         time.setText(timeloc)}}
             }else{
                 Toast.makeText(applicationContext,"Enable location in settings",Toast.LENGTH_SHORT).show()
