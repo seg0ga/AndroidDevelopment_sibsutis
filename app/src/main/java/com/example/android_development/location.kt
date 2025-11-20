@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.util.Date
@@ -144,21 +145,30 @@ class location : AppCompatActivity() {
 
     private fun tojson(lat:Double,lon:Double,alt:Double,time:String){
         var filename = "location.json"
-        var downDir=android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS)
+        var downDir=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         var file = File(downDir,filename)
-        var initJson = """{ "locations": [] }"""
-        if (!file.exists()){file.writeText(initJson)}
-        var spisok_json=JSONObject(file.readText()).getJSONArray("locations")
-        var jsonObject= JSONObject(file.readText())
+
+        var jsonObject: JSONObject
+        var spisok_json: JSONArray
+
+        if (!file.exists()){
+            jsonObject= JSONObject()
+            spisok_json= JSONArray()
+            jsonObject.put("locations",spisok_json)}
+        else{
+            jsonObject= JSONObject(file.readText())
+            spisok_json=jsonObject.getJSONArray("locations")}
+
         var zapis= JSONObject()
         zapis.put("lat",lat)
         zapis.put("lon",lon)
-        zapis.put("alt",alt)
+        zapis.put("alt",round(alt))
         zapis.put("time",time)
 
         spisok_json.put(zapis)
-        file.writeText( jsonObject.toString())
-    }
+        jsonObject.put("locations",spisok_json)
+
+        file.writeText(jsonObject.toString())}
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
