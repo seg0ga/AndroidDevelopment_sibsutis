@@ -122,19 +122,9 @@ class location : AppCompatActivity() {
 
                         var timeloc = hour+":"+minute+":"+seconds
                         var location_for_spisok = "Время: ${timeloc}\nШир: ${location.latitude} Дол: ${location.longitude}"
-                        if (first){updateSpisok(location_for_spisok);first=false}
-
-                        if (spisokLocation.last()!=location_for_spisok){
-                            updateSpisok(location_for_spisok)}
-
-                        time.setText(timeloc)}
-
-                        val file=File(getExternalFilesDir(Environment.DIRECTORY_MUSIC),"location.json")
-                        val json=JSONObject().apply {
-                            put("lat",lat_site)
-                            put("lon",lon_site)
-                            put("time",Date().toString())}
-                        file.writeText(json.toString())}
+                        updateSpisok(location_for_spisok)
+                        tojson(location.latitude,location.longitude,location.altitude,timeloc)
+                        time.setText(timeloc)}}
             }else{
                 Toast.makeText(applicationContext,"Enable location in settings",Toast.LENGTH_SHORT).show()
                 val intent=Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
@@ -152,6 +142,23 @@ class location : AppCompatActivity() {
         {return true}
         else{return false}}
 
+    private fun tojson(lat:Double,lon:Double,alt:Double,time:String){
+        var filename = "location.json"
+        var downDir=android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS)
+        var file = File(downDir,filename)
+        var initJson = """{ "locations": [] }"""
+        if (!file.exists()){file.writeText(initJson)}
+        var spisok_json=JSONObject(file.readText()).getJSONArray("locations")
+        var jsonObject= JSONObject(file.readText())
+        var zapis= JSONObject()
+        zapis.put("lat",lat)
+        zapis.put("lon",lon)
+        zapis.put("alt",alt)
+        zapis.put("time",time)
+
+        spisok_json.put(zapis)
+        file.writeText( jsonObject.toString())
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
