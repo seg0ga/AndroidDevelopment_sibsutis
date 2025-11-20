@@ -23,11 +23,11 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import org.json.JSONObject
 import java.io.File
 import java.util.Date
 import kotlin.math.round
-
 
 
 
@@ -81,14 +81,13 @@ class location : AppCompatActivity() {
         handler.postDelayed({getCurrentLocation()
 //            test.setText(testik.toString())
 //            testik+=1
-        updatelocation()}, 5000)}
+        updatelocation()}, 10000)}
 
 
     private fun updateSpisok(location_for_spisok: String){
         var adapter= ArrayAdapter(this,android.R.layout.simple_list_item_1,spisokLocation)
         spisokloc_activity.adapter=adapter
-        spisokLocation.add(location_for_spisok)
-    }
+        spisokLocation.add(location_for_spisok)}
 
 
     private fun getCurrentLocation(){
@@ -98,7 +97,7 @@ class location : AppCompatActivity() {
                 if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions()
                     return}
-                myFusedLocationProviderClient.lastLocation.addOnCompleteListener(this){task->
+                myFusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null).addOnCompleteListener(this){ task->
                     val location:Location?=task.result
                     if(location==null){Toast.makeText(applicationContext, "problems with signal", Toast.LENGTH_SHORT).show()
                     } else {
