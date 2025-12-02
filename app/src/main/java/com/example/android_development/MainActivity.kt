@@ -39,6 +39,10 @@ class MainActivity : AppCompatActivity() {
             val locationIntent=Intent(this, location::class.java)
             startActivity(locationIntent)})
 
+        bttn_sockets.setOnClickListener({
+            val socketsIntent=Intent(this, sockets::class.java)
+            startActivity(socketsIntent)})
+
 
 
         bttn_tasks.setOnClickListener({

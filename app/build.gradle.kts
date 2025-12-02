@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.play.services.maps)
     testImplementation(libs.junit)
+    implementation ("org.zeromq:jeromq:0.5.0")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
