@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Switch
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -22,8 +23,10 @@ class sockets : AppCompatActivity() {
     lateinit var clientText: EditText
     lateinit var sendBttn: Button
     lateinit var handler: Handler
+    lateinit var switch: Switch
+    var flag=false
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_sockets)
@@ -35,16 +38,17 @@ class sockets : AppCompatActivity() {
         clientView=findViewById<TextView>(R.id.clientView)
         sendBttn=findViewById<Button>(R.id.sendBttn)
         clientText=findViewById<EditText>(R.id.client_text)
-        handler = Handler(Looper.getMainLooper())
-
-        sendBttn.setOnClickListener{Thread {startClient()}.start()}}
-
-
+        handler=Handler(Looper.getMainLooper())
+        switch=findViewById<Switch>(R.id.switch1)
+        switch.isChecked=flag
+        sendBttn.setOnClickListener{Thread{startClient()}.start()}
+        switch.setOnCheckedChangeListener{_,isChecked ->
+            flag=isChecked}}
 
     fun startServer(){
         val context=ZMQ.context(1)
         val socket=ZContext().createSocket(SocketType.REP)
-        socket.bind("tcp://localhost:2222")
+        socket.bind("tcp://localhost:6666")
         var counter: Int = 0
 
         while(true){
@@ -60,7 +64,8 @@ class sockets : AppCompatActivity() {
     fun startClient(){
         val context=ZMQ.context(1)
         val socket=ZContext().createSocket(SocketType.REQ)
-        socket.connect("tcp://192.168.1.211:2222")
+        if (flag){socket.connect("tcp://192.168.1.211:2222")}
+        else {socket.connect("tcp://localhost:6666")}
 
         val request=clientText.text.toString()
         socket.send(request.toByteArray(ZMQ.CHARSET),0)
@@ -72,8 +77,8 @@ class sockets : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-//        val runnableServer = Runnable{startServer()}
-//        val threadServer = Thread(runnableServer)
-//        threadServer.start()
+        val runnableServer = Runnable{startServer()}
+        val threadServer = Thread(runnableServer)
+        threadServer.start()
     }
 }

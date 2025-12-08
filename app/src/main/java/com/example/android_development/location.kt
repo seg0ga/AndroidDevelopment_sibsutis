@@ -26,6 +26,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import org.json.JSONArray
 import org.json.JSONObject
+import org.zeromq.SocketType
+import org.zeromq.ZContext
+import org.zeromq.ZMQ
 import java.io.File
 import java.util.Date
 import kotlin.math.round
@@ -46,7 +49,6 @@ class location : AppCompatActivity() {
     var handler= Handler()
     var lat_site: Double= 0.0
     var lon_site: Double=0.0
-//    var testik: Int = 0
 
     companion object {private const val PERMISSION_REQUEST_ACCESS_LOCATION= 100}
 
@@ -65,7 +67,6 @@ class location : AppCompatActivity() {
         spisokloc_activity=findViewById<ListView>(R.id.listloc)
         time=findViewById<TextView>(R.id.current_time)
         card_button=findViewById<Button>(R.id.card_button)
-//        test=findViewById<TextView>(R.id.test)
         getCurrentLocation()
         updatelocation()
         card_button.setOnClickListener({
@@ -79,8 +80,6 @@ class location : AppCompatActivity() {
 
     private fun updatelocation(){
         handler.postDelayed({getCurrentLocation()
-//            test.setText(testik.toString())
-//            testik+=1
         updatelocation()}, 10000)}
 
 
@@ -124,6 +123,7 @@ class location : AppCompatActivity() {
                         var location_for_spisok = "Время: ${timeloc}\nШир: ${location.latitude} Дол: ${location.longitude}"
                         updateSpisok(location_for_spisok)
                         tojson(location.latitude,location.longitude,location.altitude,location.time.toString())
+                        startClient(location.latitude,location.longitude,location.altitude,location.time.toString())
                         time.setText(timeloc)}}
             }else{
                 Toast.makeText(applicationContext,"Enable location in settings",Toast.LENGTH_SHORT).show()
@@ -168,6 +168,23 @@ class location : AppCompatActivity() {
         jsonObject.put("locations",spisok_json)
 
         file.writeText(jsonObject.toString())}
+
+    fun startClient(lat:Double,lon:Double,alt:Double,time:String){
+        var jsonObject: JSONObject
+        var spisok_json: JSONArray
+        val context=ZMQ.context(1)
+        val socket=ZContext().createSocket(SocketType.REQ)
+        var request= JSONObject()
+        request.put("lat",lat)
+        request.put("lon",lon)
+        request.put("alt",round(alt))
+        request.put("time",time)
+
+        socket.connect("tcp://192.168.1.211:2222")
+        socket.send(request.toString().toByteArray(ZMQ.CHARSET),0)
+        socket.close()
+        context.close()}
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
