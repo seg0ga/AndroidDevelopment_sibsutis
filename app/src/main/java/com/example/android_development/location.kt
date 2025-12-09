@@ -172,16 +172,21 @@ class location : AppCompatActivity() {
     fun startClient(lat:Double,lon:Double,alt:Double,time:String){
         var jsonObject: JSONObject
         var spisok_json: JSONArray
-        val context=ZMQ.context(1)
-        val socket=ZContext().createSocket(SocketType.REQ)
+        jsonObject= JSONObject()
+        spisok_json= JSONArray()
+
         var request= JSONObject()
         request.put("lat",lat)
         request.put("lon",lon)
         request.put("alt",round(alt))
         request.put("time",time)
+        spisok_json.put(request)
+        jsonObject.put("locations",spisok_json)
 
+        val context=ZMQ.context(1)
+        val socket=ZContext().createSocket(SocketType.REQ)
         socket.connect("tcp://192.168.1.211:2222")
-        socket.send(request.toString().toByteArray(ZMQ.CHARSET),0)
+        socket.send(jsonObject.toString().toByteArray(ZMQ.CHARSET),0)
         socket.close()
         context.close()}
 
