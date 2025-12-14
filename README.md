@@ -7,17 +7,11 @@
 Получить доступ к данным о местоположении Android-телефона и вывести на экран значения.
 
 1. Создать Activity Location, в основном окне MainActivity добавить кнопку перехода в новую ‘Activity’✅
-
 2. Получить доступ к классу Location при помощи permissions: ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION✅
-
 3. Вывести в Activity данные о текущем (или последнем известном) местоположении смартфона:
-
 - Latitude✅
-
 - Longitude✅
-
 - Altitude✅
-
 - Current Time✅
 
 4. Получить данные можно при помощи метода getLastLocation()✅
