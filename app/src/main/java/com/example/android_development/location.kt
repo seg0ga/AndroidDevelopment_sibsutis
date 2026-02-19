@@ -185,7 +185,7 @@ class location : AppCompatActivity() {
 
         val context=ZMQ.context(1)
         val socket=ZContext().createSocket(SocketType.REQ)
-        socket.connect("tcp://192.168.1.211:2222")
+        socket.connect("tcp://172.22.237.35:5555")
         socket.send(jsonObject.toString().toByteArray(ZMQ.CHARSET),0)
         socket.close()
         context.close()}
