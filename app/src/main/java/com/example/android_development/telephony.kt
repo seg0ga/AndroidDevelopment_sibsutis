@@ -76,7 +76,7 @@ class telephony : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_PHONE_STATE)!=PackageManager.PERMISSION_GRANTED||
             ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED||
             ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
-        ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.READ_PHONE_STATE,android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION),1)}}
+            ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.READ_PHONE_STATE,android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION),1)}}
 
 
     private fun updateCellInfo(){
@@ -158,7 +158,7 @@ class telephony : AppCompatActivity() {
                     cellSignalStrengthList.add("SS-SINR:\n${cellSignalStrength.ssSinr}")
                     cellSignalStrengthList.add("Timing Advance:\n${cellSignalStrength.timingAdvanceMicros}")}
 
-            val a1= ArrayAdapter(this,android.R.layout.simple_list_item_1,cellIdentityList)
-            list_cell_info1.adapter=a1
-            val a2= ArrayAdapter(this,android.R.layout.simple_list_item_1,cellSignalStrengthList)
-            list_cell_info2.adapter=a2}}}}
+                val a1= ArrayAdapter(this,android.R.layout.simple_list_item_1,cellIdentityList)
+                list_cell_info1.adapter=a1
+                val a2= ArrayAdapter(this,android.R.layout.simple_list_item_1,cellSignalStrengthList)
+                list_cell_info2.adapter=a2}}}}
