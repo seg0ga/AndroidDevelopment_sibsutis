@@ -24,7 +24,8 @@
    3. Информацию о сетевом трафике смартфона:
       1. Информация об общем количестве переданных данных;✅
       2. Информация о ТОП приложений (входящих в 2-сигма по потреблению трафика), потребляющих интернет-трафик смартфона.⚠️ (В процессе)
-         <img width="301" height="595" alt="image" src="https://github.com/user-attachments/assets/0a5286d2-8409-4feb-a576-6aaecec87b06" />
+
+<img width="301" height="595" alt="image" src="https://github.com/user-attachments/assets/0a5286d2-8409-4feb-a576-6aaecec87b06" />
 
 
 
