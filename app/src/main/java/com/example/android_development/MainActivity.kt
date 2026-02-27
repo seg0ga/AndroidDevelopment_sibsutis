@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         val bttn_telephony=findViewById<Button>(R.id.bttn_telephony)
         val bttn_sockets=findViewById<Button>(R.id.bttn_sockets)
         val bttn_tasks=findViewById<Button>(R.id.bttn_tasks)
+        val bttn_service=findViewById<Button>(R.id.bttn_service)
 
         bttn_calculator.setOnClickListener({
             val calculatorIntent = Intent(this, calc::class.java)
@@ -47,7 +48,9 @@ class MainActivity : AppCompatActivity() {
             val socketsIntent=Intent(this, sockets::class.java)
             startActivity(socketsIntent)})
 
-
+        bttn_service.setOnClickListener({
+            val serviceIntent=Intent(this, background_service::class.java)
+            startActivity(serviceIntent)})
 
         bttn_tasks.setOnClickListener({
             val uri = Uri.parse("https://telecomdep.github.io/notes/HomeWork/home_work.html#")
