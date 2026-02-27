@@ -9,26 +9,26 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/bttn_location"
+        android:id="@+id/bttn_service"
         android:layout_width="345dp"
         android:layout_height="76dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="88dp"
         android:backgroundTint="#2d2d2f"
-        android:text="Location"
+        android:text="Service"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bttn_mediaplayer" />
+        app:layout_constraintTop_toBottomOf="@+id/bttn_telephony" />
 
     <Button
         android:id="@+id/bttn_sockets"
         android:layout_width="345dp"
         android:layout_height="76dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="#2d2d2f"
         android:text="Sockets"
         android:textAlignment="center"
@@ -39,41 +39,26 @@
         app:layout_constraintTop_toBottomOf="@+id/bttn_telephony" />
 
     <Button
-        android:id="@+id/bttn_telephony"
+        android:id="@+id/bttn_location"
         android:layout_width="345dp"
         android:layout_height="76dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="#2d2d2f"
-        android:text="Telephony"
+        android:text="Location"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bttn_location" />
-
-    <Button
-        android:id="@+id/bttn_tasks"
-        android:layout_width="345dp"
-        android:layout_height="76dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="148dp"
-        android:backgroundTint="#919191"
-        android:text="Задания"
-        android:textAlignment="center"
-        android:textColor="#0b0b0b"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bttn_telephony" />
+        app:layout_constraintTop_toBottomOf="@+id/bttn_mediaplayer" />
 
     <Button
         android:id="@+id/bttn_сalculator"
         android:layout_width="345dp"
         android:layout_height="76dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="172dp"
         android:backgroundTint="#2d2d2f"
         android:text="Calculator"
         android:textAlignment="center"
@@ -88,7 +73,7 @@
         android:layout_width="345dp"
         android:layout_height="76dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="#2d2d2f"
         android:text="MediaPlayer"
         android:textAlignment="center"
@@ -97,5 +82,35 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bttn_сalculator" />
+
+    <Button
+        android:id="@+id/bttn_telephony"
+        android:layout_width="345dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#2d2d2f"
+        android:text="Telephony"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bttn_location" />
+
+    <Button
+        android:id="@+id/bttn_tasks"
+        android:layout_width="345dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="176dp"
+        android:backgroundTint="#919191"
+        android:text="Задания"
+        android:textAlignment="center"
+        android:textColor="#0b0b0b"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bttn_telephony" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
