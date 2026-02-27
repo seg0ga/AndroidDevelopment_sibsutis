@@ -27,6 +27,7 @@
 
 <img width="301" height="595" alt="image" src="https://github.com/user-attachments/assets/0a5286d2-8409-4feb-a576-6aaecec87b06" />
 
+<img width="1280" height="779" alt="image" src="https://github.com/user-attachments/assets/45ecd7aa-d62a-4244-8545-7303c8e4f2b6" />
 
 
 ## Практическая работа №9 "Работа с сокетами (ZMQ). Передача данных от Android к PC"
