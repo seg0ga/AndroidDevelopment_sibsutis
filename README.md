@@ -1,6 +1,8 @@
 # Демин Сергей Алексеевич ИКС-433
 ## Визуальное программирование и человеко-машинное взаимодействие
 
+### Ссылка на репозиторий с background: [https://github.com/seg0ga/AndroidDevelopment_sibsutis](https://github.com/seg0ga/Android_Development_backend)
+
 ## Практическая работа №10 "Android background service."
 ### Цель
 1. Реализовать в приложении Android сервис работы в фоновом режиме.✅
