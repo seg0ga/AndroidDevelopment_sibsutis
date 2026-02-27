@@ -49,7 +49,8 @@
 4. Git:
    - Android - Сделать c merge request с новым функционалом;✅
    - Server - добавить новый коммит, обновить удаленный репозиторий.✅
-     <img width="307" height="614" alt="image" src="https://github.com/user-attachments/assets/cc89fe41-f96d-49de-b6a3-fcfab5707b28" />
+
+<img width="307" height="614" alt="image" src="https://github.com/user-attachments/assets/cc89fe41-f96d-49de-b6a3-fcfab5707b28" />
 
 ## Практическая работа №6 "Локация"
 
@@ -80,7 +81,8 @@
 3. Возможность вопроизводить музыку из хранилища телефона при помощи Permission;✅
 4. Важно реализовать проверку текущего файла на директорию (isDirectory);✅
 5. Отображение списка треков на экране Activity.✅
-   <img width="324" height="637" alt="Точечный рисунок" src="https://github.com/user-attachments/assets/8c493630-4f05-41b1-a0f2-5b91f4795589" />
+
+<img width="324" height="637" alt="Точечный рисунок" src="https://github.com/user-attachments/assets/8c493630-4f05-41b1-a0f2-5b91f4795589" />
 
 ## Практическая работа №4.5 "Рефакторинг. Разделение по Activities."
 
