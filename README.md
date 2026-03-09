@@ -3,6 +3,19 @@
 
 ### Ссылка на репозиторий с background: [https://github.com/seg0ga/AndroidDevelopment_sibsutis](https://github.com/seg0ga/Android_Development_backend)
 
+## Практическая работа №11 "Android background service."
+### Цель
+1. Реализовать в приложении Android сервис работы в фоновом режиме.
+   - Перенести функцию определения местоположения в Service;✅
+   - Перенести функцию получения данных о сети в Service;✅
+   - Перенести отправку посредством сокетов в Service.✅
+
+2. Реализовать отображение параметров мощности радиосигнала (CellSignalStrength) на графиках по мере получения данных с мобильного устройства.
+   - Для графиков использовать библиотеку ImPlot.⚠️ (В другом репозитории - https://github.com/seg0ga/Android_Development_backend)
+
+3. Обновить git-репозиторий.✅
+   <img width="332" height="640" alt="image" src="https://github.com/user-attachments/assets/17dc7c7d-6437-4e9d-8345-0a77660729f1" />
+
 ## Практическая работа №10 "Android background service."
 ### Цель
 1. Реализовать в приложении Android сервис работы в фоновом режиме.✅
