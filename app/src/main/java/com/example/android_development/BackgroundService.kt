@@ -1,8 +1,14 @@
 package com.example.android_development
 
 import android.Manifest
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
@@ -14,9 +20,16 @@ import android.telephony.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 import org.zeromq.SocketType
@@ -26,138 +39,63 @@ import java.io.File
 import java.util.Date
 import kotlin.math.round
 
-class background_service:AppCompatActivity() {
-    lateinit var latitudeText:TextView
-    lateinit var longitudeText:TextView
-    lateinit var altitudeText:TextView
-    lateinit var accuracyText:TextView
-    lateinit var timeText:TextView
-    lateinit var trafficTotalText:TextView
-    lateinit var bttnLte:Button
-    lateinit var bttnGsm:Button
-    lateinit var bttnNr:Button
-    lateinit var listCellInfo1:ListView
-    lateinit var listCellInfo2:ListView
-    lateinit var cellIdentityTitle:TextView
-    lateinit var cellSignalTitle:TextView
-    lateinit var topAppsList:ListView
+class BackgroundService:Service(){
+    private val serviceJob=Job()
+    private val serviceScope = CoroutineScope(Dispatchers.IO+serviceJob)
     lateinit var myFusedLocationProviderClient:FusedLocationProviderClient
     var flag:Int=1
-    var handler=Handler()
     var lat_site:Double=0.0
     var lon_site:Double=0.0
 
-    companion object {private const val PERMISSION_REQUEST_CODE=100}
+    override fun onCreate(){
+        super.onCreate()
+        myFusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(this)}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_background_service)
+    override fun onStartCommand(intent:Intent?,flags:Int,startId:Int):Int{
+        flag=intent?.getIntExtra("flag",1)?:1
+        serviceScope.launch{
+            while (isActive){
+                getCurrentLocation()
+                getCellInfo()
+                delay(5000)}}
+        return START_STICKY}
 
-        myFusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(this)
-        latitudeText=findViewById(R.id.latitude_service)
-        longitudeText=findViewById(R.id.longitude_service)
-        altitudeText=findViewById(R.id.altitude_service)
-        accuracyText=findViewById(R.id.accuracy_service)
-        timeText=findViewById(R.id.current_time_service)
-        trafficTotalText=findViewById(R.id.traffic_total)
-        bttnLte=findViewById(R.id.bttn_lte)
-        bttnGsm=findViewById(R.id.bttn_gsm)
-        bttnNr=findViewById(R.id.bttn_nr)
-        cellIdentityTitle=findViewById(R.id.CellIdentity)
-        cellSignalTitle=findViewById(R.id.CellSignalStrength)
-        listCellInfo1=findViewById(R.id.list_cell_info1)
-        listCellInfo2=findViewById(R.id.list_cell_info2)
-        topAppsList=findViewById(R.id.top_apps_list)
+    private fun sendLocationToActivity(location:Location){
+        val intent=Intent("LOCATION_UPDATE")
+        intent.putExtra("latitude",location.latitude.toString())
+        intent.putExtra("longitude",location.longitude.toString())
+        intent.putExtra("altitude",round(location.altitude).toString())
+        intent.putExtra("accuracy",location.accuracy.toString())
+        var hour=Date(location.time).hours.toString()
+        var minute=Date(location.time).minutes.toString()
+        var seconds=Date(location.time).seconds.toString()
+        if (hour.length!=2) hour="0$hour"
+        if (minute.length!=2) minute="0$minute"
+        if (seconds.length!=2) seconds="0$seconds"
+        intent.putExtra("time","$hour:$minute:$seconds")
 
-        checkPermissions()
+        val totalTraffic=TrafficStats.getTotalRxBytes()+TrafficStats.getTotalTxBytes()
+        intent.putExtra("traffic","${totalTraffic/1024/1024} MB")
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)}
 
-        bttnLte.setOnClickListener{
-            flag=1
-            updateButtonColors(bttnLte)
-            cellIdentityTitle.text="CellIdentityLTE"
-            cellSignalTitle.text="CellSignalStrengthLTE"
-            getCellInfo()}
+    private fun sendCellInfoToActivity(identityList:MutableList<String>,strengthList:MutableList<String>){
+        val intent=Intent("CELL_INFO_UPDATE")
+        intent.putStringArrayListExtra("identity_list",ArrayList(identityList))
+        intent.putStringArrayListExtra("strength_list",ArrayList(strengthList))
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)}
 
-        bttnGsm.setOnClickListener{
-            flag=2
-            updateButtonColors(bttnGsm)
-            cellIdentityTitle.text="CellIdentityGSM"
-            cellSignalTitle.text="CellSignalStrengthGSM"
-            getCellInfo()}
-
-        bttnNr.setOnClickListener{
-            flag=3
-            updateButtonColors(bttnNr)
-            cellIdentityTitle.text="CellIdentityNR"
-            cellSignalTitle.text="CellSignalStrengthNR"
-            getCellInfo()}
-
-        updateLocation()
-        updateCellInfo()}
-
-    private fun updateButtonColors(selectedButton: Button){
-        bttnLte.setBackgroundColor(if (selectedButton==bttnLte) Color.parseColor("#2d2d2f") else Color.parseColor("#16c603"))
-        bttnGsm.setBackgroundColor(if (selectedButton==bttnGsm) Color.parseColor("#2d2d2f") else Color.parseColor("#16c603"))
-        bttnNr.setBackgroundColor(if (selectedButton==bttnNr) Color.parseColor("#2d2d2f") else Color.parseColor("#16c603"))}
-
-    private fun checkPermissions(){
-        val permissions=arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.READ_PHONE_STATE)
-
-        val permissionsToRequest=mutableListOf<String>()
-        for (permission in permissions){
-            if (ActivityCompat.checkSelfPermission(this,permission)!=PackageManager.PERMISSION_GRANTED){permissionsToRequest.add(permission)}}
-
-        if (permissionsToRequest.isNotEmpty()){ActivityCompat.requestPermissions(this,permissionsToRequest.toTypedArray(),PERMISSION_REQUEST_CODE)}}
-
-    private fun checkLocationPermissions():Boolean{
-        return ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED&&
-                ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED}
-
-    private fun checkPhonePermission():Boolean{
-        return ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE)==PackageManager.PERMISSION_GRANTED}
-
-    private fun isLocationEnabled():Boolean{
-        val locationManager=getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)}
-
-    private fun updateLocation(){
-        handler.postDelayed({
-            getCurrentLocation()
-            updateLocation()},5000)}
-
-    private fun updateCellInfo(){
-        handler.postDelayed({
-            getCellInfo()
-            updateCellInfo()},5000)}
+    override fun onBind(intent:Intent):IBinder{TODO("Return the communication channel to the service.")}
 
     private fun getCurrentLocation(){
         if (checkLocationPermissions()){
             if (isLocationEnabled()){
-                myFusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null).addOnCompleteListener(this){task->
-                        val location:Location?=task.result
-                        if (location!=null){
-                            lat_site=location.latitude
-                            lon_site=location.longitude
-                            latitudeText.text=location.latitude.toString()
-                            longitudeText.text=location.longitude.toString()
-                            altitudeText.text=round(location.altitude).toString()
-                            accuracyText.text=location.accuracy.toString()
-                            var hour=Date(location.time).hours.toString()
-                            var minute=Date(location.time).minutes.toString()
-                            var seconds=Date(location.time).seconds.toString()
-                            if (hour.length!=2)hour="0$hour"
-                            if (minute.length!=2)minute="0$minute"
-                            if (seconds.length!=2)seconds="0$seconds"
-                            timeText.text="$hour:$minute:$seconds"
-                            val totalTraffic=TrafficStats.getTotalRxBytes()+TrafficStats.getTotalTxBytes()
-                            trafficTotalText.text="${totalTraffic/1024/1024} MB"
-                            sendAllData(location)}}
-            }else{Toast.makeText(applicationContext,"Enable location",Toast.LENGTH_SHORT).show()
-                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))}}}
+                myFusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null).addOnCompleteListener{task->
+                    val location:Location?=task.result
+                    if (location!=null){
+                        lat_site=location.latitude
+                        lon_site=location.longitude
+                        sendLocationToActivity(location)
+                        sendAllData(location)}}}}}
 
     private fun getCellInfo(){
         if (!checkPhonePermission()){return}
@@ -209,9 +147,7 @@ class background_service:AppCompatActivity() {
                         strengthList.add("RSRQ: ${cellSignal.ssRsrq}")
                         strengthList.add("SINR: ${cellSignal.ssSinr}")
                         strengthList.add("TA: ${cellSignal.timingAdvanceMicros}")}}}}
-
-        listCellInfo1.adapter=ArrayAdapter(this,android.R.layout.simple_list_item_1,identityList)
-        listCellInfo2.adapter=ArrayAdapter(this,android.R.layout.simple_list_item_1,strengthList)}
+        sendCellInfoToActivity(identityList,strengthList)}
 
     private fun sendAllData(location:Location){
         try {val jsonData=JSONObject()
@@ -309,9 +245,18 @@ class background_service:AppCompatActivity() {
             file.writeText(jsonObject.toString())
         }catch(e:Exception){e.printStackTrace()}}
 
-    override fun onRequestPermissionsResult(requestCode:Int,permissions:Array<out String>,grantResults:IntArray){
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults)
-        if (requestCode==PERMISSION_REQUEST_CODE){
-            if (grantResults.isNotEmpty()&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this,"Permissions granted",Toast.LENGTH_SHORT).show()
-                getCurrentLocation()}}}}
+    private fun checkLocationPermissions():Boolean{
+        return ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED&&
+                ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED}
+
+    private fun checkPhonePermission():Boolean{
+        return ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE)==PackageManager.PERMISSION_GRANTED}
+
+    private fun isLocationEnabled():Boolean{
+        val locationManager=getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)}
+
+    override fun onDestroy(){
+        super.onDestroy()
+        serviceJob.cancel()}}
