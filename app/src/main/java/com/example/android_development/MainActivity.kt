@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(socketsIntent)})
 
         bttn_service.setOnClickListener({
-            val serviceIntent=Intent(this, background_service::class.java)
+            val serviceIntent=Intent(this, cellinfo_location::class.java)
             startActivity(serviceIntent)})
 
         bttn_tasks.setOnClickListener({
