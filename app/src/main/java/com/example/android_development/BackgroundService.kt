@@ -57,7 +57,7 @@ class BackgroundService:Service(){
             while (isActive){
                 getCurrentLocation()
                 getCellInfo()
-                delay(5000)}}
+                delay(3000)}}
         return START_STICKY}
 
     private fun sendLocationToActivity(location:Location){
@@ -157,7 +157,7 @@ class BackgroundService:Service(){
             locData.put("longitude",location.longitude)
             locData.put("altitude",round(location.altitude))
             locData.put("accuracy",location.accuracy)
-            locData.put("current_time",location.time.toString())
+            locData.put("current_time",location.time)
             jsonData.put("location",locData)
             if (checkPhonePermission()){
                 val telephonyManager=getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -226,7 +226,7 @@ class BackgroundService:Service(){
                 try{
                     val context=ZMQ.context(1)
                     val socket=ZContext().createSocket(SocketType.REQ)
-                    socket.connect("tcp://172.22.237.35:5555")
+                    socket.connect("tcp://5.128.213.219:443")
                     socket.send(jsonData.toString().toByteArray(ZMQ.CHARSET),0)
                     socket.close()
                     context.close()
