@@ -46,10 +46,18 @@ class BackgroundService:Service(){
     var flag:Int=1
     var lat_site:Double=0.0
     var lon_site:Double=0.0
+    var filterSendLocation=true
+    var filterSendTraffic=true
+    var filterSendCellTowers=true
+    var filterSendLteData=true
+    var filterSendGsmData=true
+    var filterSendNrData=true
+    var filterServerJob:Job?=null
 
     override fun onCreate(){
         super.onCreate()
-        myFusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(this)}
+        myFusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(this)
+        startFilterCommandServer()}
 
     override fun onStartCommand(intent:Intent?,flags:Int,startId:Int):Int{
         flag=intent?.getIntExtra("flag",1)?:1
@@ -59,6 +67,34 @@ class BackgroundService:Service(){
                 getCellInfo()
                 delay(3000)}}
         return START_STICKY}
+
+    private fun startFilterCommandServer(){
+        filterServerJob=serviceScope.launch{
+            try{
+                val context=ZMQ.context(1)
+                val socket=ZContext().createSocket(SocketType.REQ)
+                socket.bind("tcp://*:80")
+                while (isActive){
+                    try{
+                        val message=socket.recv(0)
+                        val commandStr=String(message,Charsets.UTF_8)
+                        val jsonCommand=JSONObject(commandStr)
+
+                        if (jsonCommand.getString("type")=="filter_update"){
+                            filterSendLocation=jsonCommand.getBoolean("send_location")
+                            filterSendTraffic=jsonCommand.getBoolean("send_traffic")
+                            filterSendCellTowers=jsonCommand.getBoolean("send_cell_towers")
+                            filterSendLteData=jsonCommand.getBoolean("send_lte_data")
+                            filterSendGsmData=jsonCommand.getBoolean("send_gsm_data")
+                            filterSendNrData=jsonCommand.getBoolean("send_nr_data")
+                            socket.send("OK".toByteArray(),0)
+                        }else{socket.send("Unknown command".toByteArray(),0)}
+                    }catch(e:Exception){e.printStackTrace()
+                        try {socket.send("Error".toByteArray(),0)
+                        } catch (e2: Exception){}}}
+                socket.close()
+                context.close()
+            }catch(e:Exception){e.printStackTrace()}}}
 
     private fun sendLocationToActivity(location:Location){
         val intent=Intent("LOCATION_UPDATE")
@@ -152,14 +188,16 @@ class BackgroundService:Service(){
     private fun sendAllData(location:Location){
         try {val jsonData=JSONObject()
 
-            val locData=JSONObject()
-            locData.put("latitude",location.latitude)
-            locData.put("longitude",location.longitude)
-            locData.put("altitude",round(location.altitude))
-            locData.put("accuracy",location.accuracy)
-            locData.put("current_time",location.time)
-            jsonData.put("location",locData)
-            if (checkPhonePermission()){
+            if (filterSendLocation){
+                val locData=JSONObject()
+                locData.put("latitude",location.latitude)
+                locData.put("longitude",location.longitude)
+                locData.put("altitude",round(location.altitude))
+                locData.put("accuracy",location.accuracy)
+                locData.put("current_time",location.time)
+                jsonData.put("location",locData)}
+
+            if (checkPhonePermission()&&filterSendCellTowers){
                 val telephonyManager=getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 val cellInfoList=telephonyManager.allCellInfo
                 val cellsArray=JSONArray()
@@ -169,23 +207,25 @@ class BackgroundService:Service(){
                         val cellData=JSONObject()
                         when (cellInfo){
                             is CellInfoLte->{
-                                cellData.put("type","LTE")
-                                cellData.put("band",cellInfo.cellIdentity.bandwidth)
-                                cellData.put("cell_identity",cellInfo.cellIdentity.ci)
-                                cellData.put("earfcn",cellInfo.cellIdentity.earfcn)
-                                cellData.put("mcc",cellInfo.cellIdentity.mcc)
-                                cellData.put("mnc",cellInfo.cellIdentity.mnc)
-                                cellData.put("pci",cellInfo.cellIdentity.pci)
-                                cellData.put("tac",cellInfo.cellIdentity.tac)
-                                cellData.put("asu_level",cellInfo.cellSignalStrength.asuLevel)
-                                cellData.put("cqi",cellInfo.cellSignalStrength.cqi)
-                                cellData.put("rsrp",cellInfo.cellSignalStrength.rsrp)
-                                cellData.put("rsrq",cellInfo.cellSignalStrength.rsrq)
-                                cellData.put("rssi",cellInfo.cellSignalStrength.rssi)
-                                cellData.put("rssnr",cellInfo.cellSignalStrength.rssnr)
-                                cellData.put("timing_advance",cellInfo.cellSignalStrength.timingAdvance)}
+                                if (filterSendLteData){
+                                    cellData.put("type","LTE")
+                                    cellData.put("band",cellInfo.cellIdentity.bandwidth)
+                                    cellData.put("cell_identity",cellInfo.cellIdentity.ci)
+                                    cellData.put("earfcn",cellInfo.cellIdentity.earfcn)
+                                    cellData.put("mcc",cellInfo.cellIdentity.mcc)
+                                    cellData.put("mnc",cellInfo.cellIdentity.mnc)
+                                    cellData.put("pci",cellInfo.cellIdentity.pci)
+                                    cellData.put("tac",cellInfo.cellIdentity.tac)
+                                    cellData.put("asu_level",cellInfo.cellSignalStrength.asuLevel)
+                                    cellData.put("cqi",cellInfo.cellSignalStrength.cqi)
+                                    cellData.put("rsrp",cellInfo.cellSignalStrength.rsrp)
+                                    cellData.put("rsrq",cellInfo.cellSignalStrength.rsrq)
+                                    cellData.put("rssi",cellInfo.cellSignalStrength.rssi)
+                                    cellData.put("rssnr",cellInfo.cellSignalStrength.rssnr)
+                                    cellData.put("timing_advance",cellInfo.cellSignalStrength.timingAdvance)}}
 
                             is CellInfoGsm->{
+                                if (filterSendGsmData){
                                 cellData.put("type","GSM")
                                 cellData.put("cell_identity",cellInfo.cellIdentity.cid)
                                 cellData.put("bsic",cellInfo.cellIdentity.bsic)
@@ -196,37 +236,42 @@ class BackgroundService:Service(){
                                 cellData.put("psc",cellInfo.cellIdentity.psc)
                                 cellData.put("dbm",cellInfo.cellSignalStrength.dbm)
                                 cellData.put("rssi",cellInfo.cellSignalStrength.rssi)
-                                cellData.put("timing_advance",cellInfo.cellSignalStrength.timingAdvance)}
+                                cellData.put("timing_advance",cellInfo.cellSignalStrength.timingAdvance)}}
 
                             is CellInfoNr->{
-                                cellData.put("type","NR")
-                                val cellIdentity=cellInfo.cellIdentity as CellIdentityNr
-                                val cellSignal=cellInfo.cellSignalStrength as CellSignalStrengthNr
-                                cellData.put("band",cellIdentity.bands?.joinToString(","))
-                                cellData.put("nci",cellIdentity.nci)
-                                cellData.put("pci",cellIdentity.pci)
-                                cellData.put("nrarfcn",cellIdentity.nrarfcn)
-                                cellData.put("tac",cellIdentity.tac)
-                                cellData.put("mcc",cellIdentity.mccString)
-                                cellData.put("mnc",cellIdentity.mncString)
-                                cellData.put("ss_rsrp",cellSignal.dbm)
-                                cellData.put("ss_rsrq",cellSignal.ssRsrq)
-                                cellData.put("ss_sinr",cellSignal.ssSinr)
-                                cellData.put("timing_advance",cellSignal.timingAdvanceMicros)}}
+                                if (filterSendNrData){
+                                    cellData.put("type","NR")
+                                    val cellIdentity=cellInfo.cellIdentity as CellIdentityNr
+                                    val cellSignal=cellInfo.cellSignalStrength as CellSignalStrengthNr
+                                    cellData.put("band",cellIdentity.bands?.joinToString(","))
+                                    cellData.put("nci",cellIdentity.nci)
+                                    cellData.put("pci",cellIdentity.pci)
+                                    cellData.put("nrarfcn",cellIdentity.nrarfcn)
+                                    cellData.put("tac",cellIdentity.tac)
+                                    cellData.put("mcc",cellIdentity.mccString)
+                                    cellData.put("mnc",cellIdentity.mncString)
+                                    cellData.put("ss_rsrp",cellSignal.dbm)
+                                    cellData.put("ss_rsrq",cellSignal.ssRsrq)
+                                    cellData.put("ss_sinr",cellSignal.ssSinr)
+                                    cellData.put("timing_advance",cellSignal.timingAdvanceMicros)}}}
+
                         cellsArray.put(cellData)}}
                 jsonData.put("cells",cellsArray)}
 
-            val trafficData=JSONObject()
-            trafficData.put("total_rx",TrafficStats.getTotalRxBytes())
-            trafficData.put("total_tx",TrafficStats.getTotalTxBytes())
-            trafficData.put("total",TrafficStats.getTotalRxBytes()+TrafficStats.getTotalTxBytes())
-            jsonData.put("traffic",trafficData)
-            saveToFile(jsonData)
+            if (filterSendTraffic){
+                val trafficData=JSONObject()
+                trafficData.put("total_rx",TrafficStats.getTotalRxBytes())
+                trafficData.put("total_tx",TrafficStats.getTotalTxBytes())
+                trafficData.put("total",TrafficStats.getTotalRxBytes()+TrafficStats.getTotalTxBytes())
+                jsonData.put("traffic",trafficData)}
+
+            if (jsonData.length()>0){saveToFile(jsonData)}
+
             Thread{
                 try{
                     val context=ZMQ.context(1)
                     val socket=ZContext().createSocket(SocketType.REQ)
-                    socket.connect("tcp://5.128.213.219:443")
+                    socket.connect("tcp://172.22.237.35:443")
                     socket.send(jsonData.toString().toByteArray(ZMQ.CHARSET),0)
                     socket.close()
                     context.close()
@@ -259,4 +304,5 @@ class BackgroundService:Service(){
 
     override fun onDestroy(){
         super.onDestroy()
-        serviceJob.cancel()}}
+        serviceJob.cancel()
+        filterServerJob?.cancel()}}
